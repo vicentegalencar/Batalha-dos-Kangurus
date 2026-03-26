@@ -5,7 +5,7 @@ const DEFAULT_BODY_SIZE = { width: 132, height: 300, offsetX: 122, offsetY: 360 
 export class Fighter extends Phaser.Physics.Arcade.Sprite {
 
     constructor(scene, config) {
-        super(scene, config.x, config.y, config.texture);
+        super(scene, config.x, config.y, config.texture, config.frame ?? 0);
 
         this.scene = scene;
         this.label = config.label;
@@ -34,15 +34,26 @@ export class Fighter extends Phaser.Physics.Arcade.Sprite {
         this.setCollideWorldBounds(true);
         this.setTint(this.tintColor);
 
-        const bodySize = config.body || DEFAULT_BODY_SIZE;
-        this.body.setSize(
-            bodySize.width,
-            bodySize.height
-        );
-        this.body.setOffset(
-            bodySize.offsetX,
-            bodySize.offsetY
-        );
+        if (config.bodyRatios) {
+            this.body.setSize(
+                Math.round(this.displayWidth * config.bodyRatios.width),
+                Math.round(this.displayHeight * config.bodyRatios.height)
+            );
+            this.body.setOffset(
+                Math.round(this.displayWidth * config.bodyRatios.offsetX),
+                Math.round(this.displayHeight * config.bodyRatios.offsetY)
+            );
+        } else {
+            const bodySize = config.body || DEFAULT_BODY_SIZE;
+            this.body.setSize(
+                bodySize.width,
+                bodySize.height
+            );
+            this.body.setOffset(
+                bodySize.offsetX,
+                bodySize.offsetY
+            );
+        }
         this.body.setDragX(1800);
         this.body.setMaxVelocity(this.moveSpeed * 2, 1400);
 
@@ -147,10 +158,10 @@ export class Fighter extends Phaser.Physics.Arcade.Sprite {
                 this.setState('jump');
             }
 
-            if (currentInput.heavy) {
+            if (currentInput.kick) {
+                this.startAttack('kick');
+            } else if (currentInput.heavy) {
                 this.startAttack('heavy');
-            } else if (currentInput.light) {
-                this.startAttack('light');
             }
         } else if (this.currentAttack && this.isGrounded()) {
             this.setVelocityX(this.body.velocity.x * 0.82);
@@ -183,7 +194,11 @@ export class Fighter extends Phaser.Physics.Arcade.Sprite {
             data: attackData
         };
 
-        this.setState(type === 'light' ? 'attackLight' : 'attackHeavy');
+        if (type === 'heavy') {
+            this.setState('attackHeavy');
+        } else {
+            this.setState('kick');
+        }
         this.setVelocityX(this.facing * (attackData.lungeX || 0));
     }
 

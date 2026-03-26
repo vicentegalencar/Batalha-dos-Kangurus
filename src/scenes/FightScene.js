@@ -100,15 +100,15 @@ export class FightScene extends Phaser.Scene {
                 left: Phaser.Input.Keyboard.KeyCodes.A,
                 right: Phaser.Input.Keyboard.KeyCodes.D,
                 jump: Phaser.Input.Keyboard.KeyCodes.W,
-                light: Phaser.Input.Keyboard.KeyCodes.F,
-                heavy: Phaser.Input.Keyboard.KeyCodes.G
+                heavy: Phaser.Input.Keyboard.KeyCodes.G,
+                kick: Phaser.Input.Keyboard.KeyCodes.H
             }),
             p2: this.input.keyboard.addKeys({
                 left: Phaser.Input.Keyboard.KeyCodes.LEFT,
                 right: Phaser.Input.Keyboard.KeyCodes.RIGHT,
                 jump: Phaser.Input.Keyboard.KeyCodes.UP,
-                light: Phaser.Input.Keyboard.KeyCodes.K,
-                heavy: Phaser.Input.Keyboard.KeyCodes.L
+                heavy: Phaser.Input.Keyboard.KeyCodes.L,
+                kick: Phaser.Input.Keyboard.KeyCodes.SEMICOLON
             })
         };
     }
@@ -149,8 +149,8 @@ export class FightScene extends Phaser.Scene {
             left: keys.left.isDown,
             right: keys.right.isDown,
             jump: Phaser.Input.Keyboard.JustDown(keys.jump),
-            light: Phaser.Input.Keyboard.JustDown(keys.light),
-            heavy: Phaser.Input.Keyboard.JustDown(keys.heavy)
+            heavy: Phaser.Input.Keyboard.JustDown(keys.heavy),
+            kick: Phaser.Input.Keyboard.JustDown(keys.kick)
         };
     }
 
@@ -162,8 +162,8 @@ export class FightScene extends Phaser.Scene {
             left: Boolean(base.left || extra.left),
             right: Boolean(base.right || extra.right),
             jump: Boolean(base.jump || extra.jump),
-            light: Boolean(base.light || extra.light),
-            heavy: Boolean(base.heavy || extra.heavy)
+            heavy: Boolean(base.heavy || extra.heavy),
+            kick: Boolean(base.kick || extra.kick)
         };
     }
 

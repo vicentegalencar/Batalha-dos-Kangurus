@@ -23,68 +23,64 @@ export class MenuScene extends Phaser.Scene {
     createBackground() {
         const { width, height } = GAME_CONFIG;
 
-        this.add.rectangle(width / 2, height / 2, width, height, 0x261327);
-        this.add.circle(width / 2, 160, 130, 0xf7b267, 1);
-        this.add.ellipse(width / 2, height - 110, width * 1.25, 220, 0x59311f, 1);
+        if (this.textures.exists('arena-map')) {
+            this.add.image(width / 2, height / 2, 'arena-map')
+                .setDisplaySize(width, height);
+        }
 
-        const skyline = this.add.graphics();
-        skyline.fillStyle(0x8c4b2a, 1);
-        skyline.fillTriangle(40, 530, 260, 250, 420, 530);
-        skyline.fillTriangle(300, 530, 520, 220, 700, 530);
-        skyline.fillTriangle(620, 530, 860, 260, 1040, 530);
-        skyline.fillTriangle(900, 530, 1120, 210, 1240, 530);
-
-        const floor = this.add.graphics();
-        floor.fillStyle(0x3f6b34, 1);
-        floor.fillRect(0, 560, width, 160);
-        floor.fillStyle(0x6f4f28, 1);
-        floor.fillRect(0, 548, width, 18);
+        this.add.rectangle(width / 2, height / 2, width, height, 0x081622, 0.74);
+        this.add.circle(width / 2, 120, 160, 0xf2b25f, 0.12);
+        this.add.rectangle(width / 2, 336, 860, 420, 0x122131, 0.7)
+            .setStrokeStyle(2, 0xf1d39d, 0.92);
+        this.add.rectangle(width / 2, 336, 810, 370, 0x0c1724, 0.28);
     }
 
     createTitle() {
         const centerX = GAME_CONFIG.width / 2;
 
-        this.add.text(centerX, 96, 'BATALHA DOS KANGURUS', {
-            fontFamily: 'Arial Black, Arial, sans-serif',
-            fontSize: '44px',
-            color: '#fff6db',
-            stroke: '#4b1f18',
-            strokeThickness: 8,
+        this.add.text(centerX, 94, 'BATALHA DOS CANGURUS', {
+            fontFamily: '"Palatino Linotype", "Book Antiqua", Georgia, serif',
+            fontSize: '48px',
+            fontStyle: 'bold',
+            color: '#fff2d7',
+            stroke: '#3a2116',
+            strokeThickness: 5,
             align: 'center'
-        }).setOrigin(0.5);
+        }).setOrigin(0.5).setShadow(0, 6, '#000000', 12, true, true);
 
-        this.add.text(centerX, 152, 'MVP arcade 2D local para testes rapidos', {
+        this.add.text(centerX, 148, 'luta arcade local com controles rapidos e leitura limpa', {
             fontFamily: 'Arial, sans-serif',
-            fontSize: '20px',
-            color: '#ffe2a6'
+            fontSize: '18px',
+            color: '#d9e7f3',
+            letterSpacing: 1
         }).setOrigin(0.5);
     }
 
     createOptions() {
         if (this.isMobile) {
-            this.createOption(338, 'Jogar no Celular', MODES.CPU, 38, { left: 34, right: 34, top: 22, bottom: 22 });
+            this.createOptionCard(306, 'Jogar no Celular', 'controles na tela e luta contra CPU', MODES.CPU, null);
 
-            this.add.text(GAME_CONFIG.width / 2, 430, 'Modo mobile usa controles na tela e prioriza Jogador vs CPU.', {
+            this.add.text(GAME_CONFIG.width / 2, 424, 'Modo mobile prioriza uma partida clara e confortavel em paisagem.', {
                 fontFamily: 'Arial, sans-serif',
-                fontSize: '22px',
-                color: '#fff6db',
+                fontSize: '21px',
+                color: '#e3edf5',
                 align: 'center',
                 wordWrap: { width: 760 }
             }).setOrigin(0.5);
 
             var prompt = this.add.text(GAME_CONFIG.width / 2, 486, 'Toque para iniciar', {
-                fontFamily: 'Arial, sans-serif',
-                fontSize: '26px',
-                color: '#fff6db'
+                fontFamily: '"Palatino Linotype", Georgia, serif',
+                fontSize: '24px',
+                color: '#f6ddb2'
             }).setOrigin(0.5);
         } else {
-            this.createOption(300, '1. Jogador vs Jogador', MODES.PVP);
-            this.createOption(390, '2. Jogador vs CPU', MODES.CPU);
+            this.createOptionCard(286, '1. Jogador vs Jogador', 'duelo local no mesmo teclado', MODES.PVP, '1');
+            this.createOptionCard(392, '2. Jogador vs CPU', 'treino rapido contra a IA', MODES.CPU, '2');
 
             var prompt = this.add.text(GAME_CONFIG.width / 2, 480, 'Pressione 1 ou 2', {
-                fontFamily: 'Arial, sans-serif',
-                fontSize: '26px',
-                color: '#fff6db'
+                fontFamily: '"Palatino Linotype", Georgia, serif',
+                fontSize: '24px',
+                color: '#f6ddb2'
             }).setOrigin(0.5);
         }
 
@@ -97,37 +93,57 @@ export class MenuScene extends Phaser.Scene {
         });
     }
 
-    createOption(y, label, mode, fontSize = 30, padding = { left: 26, right: 26, top: 16, bottom: 16 }) {
-        const option = this.add.text(GAME_CONFIG.width / 2, y, label, {
-            fontFamily: 'Arial Black, Arial, sans-serif',
-            fontSize: `${fontSize}px`,
-            color: '#23120d',
-            backgroundColor: '#f6d37a',
-            padding
-        }).setOrigin(0.5).setInteractive({ useHandCursor: true });
+    createOptionCard(y, title, subtitle, mode, hotkey) {
+        const centerX = GAME_CONFIG.width / 2;
+        const card = this.add.rectangle(centerX, y, 520, 78, 0x102131, 0.88)
+            .setStrokeStyle(2, 0xf0d59d, 0.95)
+            .setInteractive({ useHandCursor: true });
 
-        option.on('pointerover', () => {
-            option.setStyle({ backgroundColor: '#fff0b3' });
+        const accent = this.add.rectangle(centerX - 224, y, 8, 52, 0xe08c55, 1);
+        this.add.text(centerX - 196, y - 12, title, {
+            fontFamily: '"Palatino Linotype", Georgia, serif',
+            fontSize: '28px',
+            color: '#fff3da'
+        }).setOrigin(0, 0.5);
+
+        this.add.text(centerX - 196, y + 16, subtitle, {
+            fontFamily: 'Arial, sans-serif',
+            fontSize: '16px',
+            color: '#d7e4ef'
+        }).setOrigin(0, 0.5);
+
+        if (hotkey) {
+            this.add.text(centerX + 218, y, hotkey, {
+                fontFamily: 'Arial Black, Arial, sans-serif',
+                fontSize: '28px',
+                color: '#f0d59d'
+            }).setOrigin(0.5);
+        }
+
+        card.on('pointerover', () => {
+            card.setFillStyle(0x173048, 0.95);
+            accent.setFillStyle(0xf0b46a, 1);
         });
 
-        option.on('pointerout', () => {
-            option.setStyle({ backgroundColor: '#f6d37a' });
+        card.on('pointerout', () => {
+            card.setFillStyle(0x102131, 0.88);
+            accent.setFillStyle(0xe08c55, 1);
         });
 
-        option.on('pointerdown', () => {
+        card.on('pointerdown', () => {
             this.startMatch(mode);
         });
     }
 
     createControlsPanel() {
         if (this.isMobile) {
-            this.add.rectangle(GAME_CONFIG.width / 2, 628, 860, 104, 0x1f1a1a, 0.78)
-                .setStrokeStyle(2, 0xf3d27d);
+            this.add.rectangle(GAME_CONFIG.width / 2, 626, 860, 104, 0x102131, 0.84)
+                .setStrokeStyle(2, 0xf1d39d, 0.92);
 
-            this.add.text(GAME_CONFIG.width / 2, 603, 'Paisagem recomendada\nEsquerda, direita, pulo, soco e chute ficam na tela.', {
+            this.add.text(GAME_CONFIG.width / 2, 602, 'Paisagem recomendada\nmovimento, pulo, soco forte e chute ficam na tela.', {
                 fontFamily: 'Arial, sans-serif',
-                fontSize: '23px',
-                color: '#fff6db',
+                fontSize: '22px',
+                color: '#e6eef6',
                 align: 'center',
                 lineSpacing: 10
             }).setOrigin(0.5);
@@ -136,17 +152,17 @@ export class MenuScene extends Phaser.Scene {
         }
 
         const controls = [
-            'P1  A/D mover   W pular   F leve   G forte',
-            'P2  <-/-> mover   ^ pular   K leve   L forte'
+            'P1  A/D mover   W pular   G soco forte   H chute',
+            'P2  <-/-> mover   ^ pular   L soco forte   ; chute'
         ];
 
-        this.add.rectangle(GAME_CONFIG.width / 2, 628, 820, 108, 0x1f1a1a, 0.78)
-            .setStrokeStyle(2, 0xf3d27d);
+        this.add.rectangle(GAME_CONFIG.width / 2, 626, 880, 112, 0x102131, 0.84)
+            .setStrokeStyle(2, 0xf1d39d, 0.92);
 
         this.add.text(GAME_CONFIG.width / 2, 604, controls.join('\n'), {
-            fontFamily: 'Courier New, monospace',
-            fontSize: '21px',
-            color: '#fff6db',
+            fontFamily: 'Arial, sans-serif',
+            fontSize: '19px',
+            color: '#e6eef6',
             align: 'center',
             lineSpacing: 12
         }).setOrigin(0.5);

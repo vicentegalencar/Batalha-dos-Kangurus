@@ -1,11 +1,12 @@
 import { BootScene } from './scenes/BootScene.js';
+import { IntroScene } from './scenes/IntroScene.js';
 import { MenuScene } from './scenes/MenuScene.js';
 import { FightScene } from './scenes/FightScene.js';
 import { GAME_CONFIG } from './utils/gameConfig.js';
 
 const config = {
     type: Phaser.AUTO,
-    title: 'Batalha dos Kangurus',
+    title: 'Batalha dos Cangurus',
     parent: 'game-container',
     width: GAME_CONFIG.width,
     height: GAME_CONFIG.height,
@@ -26,7 +27,7 @@ const config = {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH
     },
-    scene: [BootScene, MenuScene, FightScene]
+    scene: [BootScene, IntroScene, MenuScene, FightScene]
 };
 
 new Phaser.Game(config);

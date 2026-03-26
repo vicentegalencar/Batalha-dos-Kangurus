@@ -8,8 +8,8 @@ export class SimpleCPU {
         this.nextJumpAt = 0;
         this.moveDirection = 0;
         this.pendingJump = false;
-        this.pendingLight = false;
         this.pendingHeavy = false;
+        this.pendingKick = false;
     }
 
     update(time) {
@@ -21,13 +21,13 @@ export class SimpleCPU {
             left: this.moveDirection < 0,
             right: this.moveDirection > 0,
             jump: this.pendingJump,
-            light: this.pendingLight,
-            heavy: this.pendingHeavy
+            heavy: this.pendingHeavy,
+            kick: this.pendingKick
         };
 
         this.pendingJump = false;
-        this.pendingLight = false;
         this.pendingHeavy = false;
+        this.pendingKick = false;
 
         return input;
     }
@@ -61,13 +61,13 @@ export class SimpleCPU {
             && absDistance <= 115
             && verticalGap <= 80
         ) {
-            if (absDistance < 78 && Math.random() < 0.45) {
-                this.pendingHeavy = true;
+            if (absDistance < 68 && Math.random() < 0.3) {
+                this.pendingKick = true;
             } else {
-                this.pendingLight = true;
+                this.pendingHeavy = true;
             }
 
-            this.nextAttackAt = time + Phaser.Math.Between(360, 820);
+            this.nextAttackAt = time + Phaser.Math.Between(520, 980);
         }
 
         this.nextDecisionAt = time + Phaser.Math.Between(100, 190);

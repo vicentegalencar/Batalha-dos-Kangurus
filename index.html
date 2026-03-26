@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-    <html lang="en">
+    <html lang="pt-BR">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Batalha dos Kangurus</title>
+        <title>Batalha dos Cangurus</title>
         <style>
             /* Reset CSS: Please avoid making changes here unless you know what you're doing :) */
             *,
@@ -22,9 +22,20 @@
             body {
                 line-height: 1;
                 font-family: Arial, sans-serif;
-                background-color: #040218;
+                background:
+                    radial-gradient(circle at top, #24567a 0%, #122537 34%, #050a11 100%);
                 overscroll-behavior: none;
                 touch-action: none;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 18px;
+            }
+
+            #game-container {
+                border-radius: 18px;
+                overflow: hidden;
+                box-shadow: 0 24px 60px rgba(0, 0, 0, 0.38);
             }
 
             #game-container,

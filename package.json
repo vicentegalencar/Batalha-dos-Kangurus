@@ -5,6 +5,6 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
-    "check": "node --check server.js && node --check src/main.js && node --check src/scenes/BootScene.js && node --check src/scenes/MenuScene.js && node --check src/scenes/FightScene.js && node --check src/entities/Fighter.js && node --check src/ui/FightHUD.js && node --check src/ui/TouchControls.js && node --check src/ai/SimpleCPU.js && node --check src/utils/gameConfig.js && node --check src/utils/fighterPresets.js && node --check src/utils/fighterAnimations.js && node --check src/utils/device.js"
+    "check": "node --check server.js && node --check src/main.js && node --check src/scenes/BootScene.js && node --check src/scenes/IntroScene.js && node --check src/scenes/MenuScene.js && node --check src/scenes/FightScene.js && node --check src/entities/Fighter.js && node --check src/ui/FightHUD.js && node --check src/ui/TouchControls.js && node --check src/ai/SimpleCPU.js && node --check src/utils/gameConfig.js && node --check src/utils/fighterPresets.js && node --check src/utils/fighterAnimations.js && node --check src/utils/device.js"
   }
 }

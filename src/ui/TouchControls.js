@@ -35,8 +35,8 @@ export class TouchControls {
     }
 
     createActionButtons() {
-        this.createCircleButton('light', MOBILE_UI.attackLightX, MOBILE_UI.attackLightY, 58, 'SOCO');
-        this.createCircleButton('heavy', MOBILE_UI.attackHeavyX, MOBILE_UI.attackHeavyY, 62, 'CHUTE');
+        this.createCircleButton('heavy', MOBILE_UI.attackHeavyX, MOBILE_UI.attackHeavyY, 58, 'SOCO');
+        this.createCircleButton('kick', MOBILE_UI.attackKickX, MOBILE_UI.attackKickY, 58, 'CHUTE');
     }
 
     createSystemButtons() {
@@ -174,8 +174,8 @@ export class TouchControls {
             left: this.consumeHeld('left'),
             right: this.consumeHeld('right'),
             jump: this.consumePress('jump'),
-            light: this.consumePress('light'),
-            heavy: this.consumePress('heavy')
+            heavy: this.consumePress('heavy'),
+            kick: this.consumePress('kick')
         };
     }
 
