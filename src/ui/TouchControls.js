@@ -40,6 +40,7 @@ export class TouchControls {
     }
 
     createSystemButtons() {
+        this.fullscreenButton = this.createRectButton('fullscreen', MOBILE_UI.fullscreenX, MOBILE_UI.fullscreenY, 124, 52, 'TELA');
         this.createRectButton('menu', MOBILE_UI.menuX, MOBILE_UI.menuY, 128, 52, 'MENU');
         this.restartButton = this.createRectButton('restart', MOBILE_UI.restartX, MOBILE_UI.restartY, 164, 52, 'REINICIAR');
         this.restartButton.container.setVisible(false);
@@ -185,6 +186,10 @@ export class TouchControls {
 
     consumeRestart() {
         return this.consumePress('restart');
+    }
+
+    consumeFullscreen() {
+        return this.consumePress('fullscreen');
     }
 
     consumeHeld(id) {

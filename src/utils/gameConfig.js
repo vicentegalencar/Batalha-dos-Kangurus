@@ -16,6 +16,8 @@ export const MOBILE_UI = {
     attackHeavyY: 490,
     attackKickX: 1195,
     attackKickY: 575,
+    fullscreenX: 926,
+    fullscreenY: 118,
     menuX: 1184,
     menuY: 118,
     restartX: 1060,

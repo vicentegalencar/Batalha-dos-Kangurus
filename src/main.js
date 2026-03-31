@@ -4,6 +4,15 @@ import { MenuScene } from './scenes/MenuScene.js';
 import { FightScene } from './scenes/FightScene.js';
 import { GAME_CONFIG } from './utils/gameConfig.js';
 
+function syncAppHeight() {
+    const viewportHeight = window.visualViewport?.height || window.innerHeight;
+    document.documentElement.style.setProperty('--app-height', `${Math.round(viewportHeight)}px`);
+}
+
+syncAppHeight();
+window.addEventListener('resize', syncAppHeight);
+window.visualViewport?.addEventListener('resize', syncAppHeight);
+
 const config = {
     type: Phaser.AUTO,
     title: 'Batalha dos Cangurus',

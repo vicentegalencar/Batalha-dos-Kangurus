@@ -206,6 +206,10 @@ export class FightScene extends Phaser.Scene {
             this.scene.start('MenuScene');
         }
 
+        if (this.touchControls?.consumeFullscreen()) {
+            this.toggleFullscreen();
+        }
+
         if (this.touchControls) {
             this.touchControls.setRestartVisible(this.matchOver && !this.isPortrait);
         }
@@ -234,6 +238,29 @@ export class FightScene extends Phaser.Scene {
         }
 
         this.scale.off('resize', this.refreshOrientationState, this);
+    }
+
+    toggleFullscreen() {
+        const target = document.getElementById('game-container') || document.documentElement;
+        const requestFullscreen = target.requestFullscreen
+            || target.webkitRequestFullscreen
+            || target.msRequestFullscreen;
+        const exitFullscreen = document.exitFullscreen
+            || document.webkitExitFullscreen
+            || document.msExitFullscreen;
+
+        try {
+            if (!document.fullscreenElement && requestFullscreen) {
+                requestFullscreen.call(target);
+                return;
+            }
+
+            if (document.fullscreenElement && exitFullscreen) {
+                exitFullscreen.call(document);
+            }
+        } catch {
+            // Ignore unsupported fullscreen errors on mobile browsers.
+        }
     }
 
 }

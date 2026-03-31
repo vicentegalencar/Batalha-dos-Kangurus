@@ -169,6 +169,10 @@ export class MenuScene extends Phaser.Scene {
     }
 
     startMatch(mode) {
+        if (this.isMobile) {
+            this.tryEnterFullscreen();
+        }
+
         this.scene.start('FightScene', {
             mode,
             fighterNames: this.collectFighterNames(mode)
@@ -198,6 +202,23 @@ export class MenuScene extends Phaser.Scene {
         }
 
         return normalized.slice(0, 18);
+    }
+
+    tryEnterFullscreen() {
+        const target = document.getElementById('game-container') || document.documentElement;
+        const requestFullscreen = target.requestFullscreen
+            || target.webkitRequestFullscreen
+            || target.msRequestFullscreen;
+
+        if (!requestFullscreen || document.fullscreenElement) {
+            return;
+        }
+
+        try {
+            requestFullscreen.call(target);
+        } catch {
+            // Best-effort only.
+        }
     }
 
     update() {
