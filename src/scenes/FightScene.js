@@ -2,6 +2,7 @@ import { SimpleCPU } from '../ai/SimpleCPU.js';
 import { Fighter } from '../entities/Fighter.js';
 import { FightHUD } from '../ui/FightHUD.js';
 import { TouchControls } from '../ui/TouchControls.js';
+import { ensureBackgroundMusic } from '../utils/audio.js';
 import { isMobileLike, isPortraitViewport } from '../utils/device.js';
 import { FIGHTER_PRESETS } from '../utils/fighterPresets.js';
 import { ARENA_BOUNDS, GAME_CONFIG, MODE_LABELS, MODES } from '../utils/gameConfig.js';
@@ -23,6 +24,7 @@ export class FightScene extends Phaser.Scene {
     }
 
     create() {
+        ensureBackgroundMusic(this);
         this.matchOver = false;
         this.debugHitboxes = false;
         this.roundTimeRemaining = 99;

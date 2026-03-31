@@ -8,6 +8,7 @@ export class BootScene extends Phaser.Scene {
 
     preload() {
         this.load.image('arena-map', 'assets/mapa.png');
+        this.load.audio('bgm', 'assets/music.mp3');
         Object.values(KANGAROO_SHEETS).forEach((sheet) => {
             this.load.image(sheet.key, sheet.path);
         });

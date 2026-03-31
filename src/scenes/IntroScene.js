@@ -1,3 +1,4 @@
+import { ensureBackgroundMusic } from '../utils/audio.js';
 import { GAME_CONFIG } from '../utils/gameConfig.js';
 
 export class IntroScene extends Phaser.Scene {
@@ -8,6 +9,7 @@ export class IntroScene extends Phaser.Scene {
     }
 
     create() {
+        ensureBackgroundMusic(this);
         this.createBackground();
         this.createMessage();
         this.scheduleExit();
@@ -32,7 +34,7 @@ export class IntroScene extends Phaser.Scene {
     createMessage() {
         const centerX = GAME_CONFIG.width / 2;
 
-        this.messageText = this.add.text(centerX, 296, 'Feliz aniversário, Manoel!', {
+        this.messageText = this.add.text(centerX, 296, 'Feliz anivers\u00E1rio, Manoel!', {
             fontFamily: '"Palatino Linotype", "Book Antiqua", Georgia, serif',
             fontSize: '68px',
             fontStyle: 'italic',
