@@ -25,6 +25,8 @@ export class FightScene extends Phaser.Scene {
     create() {
         this.matchOver = false;
         this.debugHitboxes = false;
+        this.roundTimeRemaining = 99;
+        this.roundTimerAccumulator = 0;
 
         this.createArena();
         this.createControls();
@@ -193,6 +195,8 @@ export class FightScene extends Phaser.Scene {
                 ? this.cpuController.update(time)
                 : this.readHumanInput(this.controls.p2);
 
+        this.updateRoundTimer(delta);
+
         this.fighter1.updateFighter(p1Input, time, delta);
         this.fighter2.updateFighter(p2Input, time, delta);
 
@@ -200,14 +204,10 @@ export class FightScene extends Phaser.Scene {
             this.finishMatch();
         }
 
-        this.hud.update();
+        this.hud.update(this.roundTimeRemaining);
 
         if (Phaser.Input.Keyboard.JustDown(this.menuKey) || this.touchControls?.consumeMenu()) {
             this.scene.start('MenuScene');
-        }
-
-        if (this.touchControls?.consumeFullscreen()) {
-            this.toggleFullscreen();
         }
 
         if (this.touchControls) {
@@ -231,6 +231,24 @@ export class FightScene extends Phaser.Scene {
         this.hud.showWinner(`${winner.label} venceu`);
     }
 
+    updateRoundTimer(delta) {
+        if (this.matchOver || this.isPortrait) {
+            return;
+        }
+
+        this.roundTimerAccumulator += delta;
+
+        while (this.roundTimerAccumulator >= 1000 && this.roundTimeRemaining > 0) {
+            this.roundTimerAccumulator -= 1000;
+            this.roundTimeRemaining -= 1;
+        }
+
+        if (this.roundTimeRemaining <= 0) {
+            this.roundTimeRemaining = 0;
+            this.finishMatch();
+        }
+    }
+
     onSceneShutdown() {
         if (this.touchControls) {
             this.touchControls.destroy();
@@ -238,29 +256,6 @@ export class FightScene extends Phaser.Scene {
         }
 
         this.scale.off('resize', this.refreshOrientationState, this);
-    }
-
-    toggleFullscreen() {
-        const target = document.getElementById('game-container') || document.documentElement;
-        const requestFullscreen = target.requestFullscreen
-            || target.webkitRequestFullscreen
-            || target.msRequestFullscreen;
-        const exitFullscreen = document.exitFullscreen
-            || document.webkitExitFullscreen
-            || document.msExitFullscreen;
-
-        try {
-            if (!document.fullscreenElement && requestFullscreen) {
-                requestFullscreen.call(target);
-                return;
-            }
-
-            if (document.fullscreenElement && exitFullscreen) {
-                exitFullscreen.call(document);
-            }
-        } catch {
-            // Ignore unsupported fullscreen errors on mobile browsers.
-        }
     }
 
 }

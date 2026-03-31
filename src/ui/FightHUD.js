@@ -66,10 +66,20 @@ export class FightHUD {
         const playerFont = this.isMobile ? '22px' : '28px';
         const valueFont = this.isMobile ? '15px' : '17px';
         const resultFont = this.isMobile ? '30px' : '40px';
+        const timerFont = this.isMobile ? '28px' : '34px';
         const helpFont = this.isMobile ? '16px' : '18px';
         const helpText = this.isMobile
             ? 'Toque em SOCO e CHUTE   MENU no topo'
             : 'P1 G/H   P2 L/;   ESC menu   R reiniciar';
+
+        this.timerText = this.scene.add.text(GAME_CONFIG.width / 2, this.isMobile ? 44 : 46, '99', {
+            fontFamily: '"Palatino Linotype", "Book Antiqua", Georgia, serif',
+            fontSize: timerFont,
+            fontStyle: 'bold',
+            color: '#fff2d8',
+            stroke: '#3a2116',
+            strokeThickness: 4
+        }).setOrigin(0.5).setDepth(111).setShadow(0, 4, '#000000', 10, true, true);
 
         this.scene.add.text(this.edge, nameY, this.leftFighter.label, {
             fontFamily: '"Palatino Linotype", "Book Antiqua", Georgia, serif',
@@ -126,7 +136,7 @@ export class FightHUD {
         }).setOrigin(0.5).setDepth(120).setShadow(0, 2, '#000000', 8, true, true);
     }
 
-    update() {
+    update(timeRemaining = 99) {
         const leftRatio = Phaser.Math.Clamp(this.leftFighter.health / this.leftFighter.maxHealth, 0, 1);
         const rightRatio = Phaser.Math.Clamp(this.rightFighter.health / this.rightFighter.maxHealth, 0, 1);
 
@@ -134,6 +144,7 @@ export class FightHUD {
         this.rightBar.width = this.barWidth * rightRatio;
         this.leftHealthText.setText(`${this.leftFighter.health}/${this.leftFighter.maxHealth}`);
         this.rightHealthText.setText(`${this.rightFighter.health}/${this.rightFighter.maxHealth}`);
+        this.timerText.setText(String(timeRemaining).padStart(2, '0'));
     }
 
     showWinner(message) {
