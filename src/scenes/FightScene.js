@@ -15,6 +15,7 @@ export class FightScene extends Phaser.Scene {
     init(data) {
         this.isMobile = isMobileLike(this);
         this.mode = data.mode || MODES.PVP;
+        this.fighterNames = data.fighterNames || {};
 
         if (this.isMobile && this.mode === MODES.PVP) {
             this.mode = MODES.CPU;
@@ -114,12 +115,15 @@ export class FightScene extends Phaser.Scene {
     }
 
     createFighters() {
+        const leftName = this.fighterNames.left || (this.mode === MODES.CPU ? 'Desafiante' : 'Jogador 1');
+        const rightName = this.fighterNames.right || (this.mode === MODES.CPU ? 'Canguru Cinza' : 'Jogador 2');
+
         this.fighter1 = new Fighter(this, {
             ...FIGHTER_PRESETS.red,
             x: ARENA_BOUNDS.leftSpawnX,
             y: ARENA_BOUNDS.spawnY,
             facing: 1,
-            label: 'P1',
+            label: leftName,
             hitboxColor: 0xff8b61
         });
 
@@ -128,7 +132,7 @@ export class FightScene extends Phaser.Scene {
             x: ARENA_BOUNDS.rightSpawnX,
             y: ARENA_BOUNDS.spawnY,
             facing: -1,
-            label: this.mode === MODES.CPU ? 'CPU' : 'P2',
+            label: rightName,
             hitboxColor: 0x66d6ff
         });
 
@@ -207,7 +211,7 @@ export class FightScene extends Phaser.Scene {
         }
 
         if (this.matchOver && (Phaser.Input.Keyboard.JustDown(this.restartKey) || this.touchControls?.consumeRestart())) {
-            this.scene.restart({ mode: this.mode });
+            this.scene.restart({ mode: this.mode, fighterNames: this.fighterNames });
         }
     }
 

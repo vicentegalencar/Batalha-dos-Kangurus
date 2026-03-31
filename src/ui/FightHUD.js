@@ -18,94 +18,87 @@ export class FightHUD {
     }
 
     createFrame(modeLabel) {
-        const width = GAME_CONFIG.width;
-        const panelY = this.isMobile ? 54 : 58;
-        const panelHeight = this.isMobile ? 88 : 96;
-
-        this.scene.add.rectangle(width / 2, panelY + 4, width - 88, panelHeight, 0x000000, 0.18)
-            .setDepth(98);
-        this.scene.add.rectangle(width / 2, panelY, width - 92, panelHeight, 0x0f1d2a, 0.84)
-            .setStrokeStyle(2, 0xf1d39d, 0.95)
-            .setDepth(100);
-
-        this.scene.add.text(width / 2, this.isMobile ? 27 : 26, modeLabel, {
-            fontFamily: '"Palatino Linotype", Georgia, serif',
-            fontSize: this.isMobile ? '18px' : '20px',
-            color: '#fff0cf'
-        }).setOrigin(0.5, 0.5).setDepth(110);
+        this.modeLabel = modeLabel;
     }
 
     createBars() {
-        const edge = this.isMobile ? 84 : 126;
-        const y = this.isMobile ? 63 : 67;
-        const height = this.isMobile ? 20 : 24;
-        const framePadding = 6;
+        this.edge = this.isMobile ? 84 : 126;
+        this.barY = this.isMobile ? 70 : 76;
+        const height = this.isMobile ? 18 : 22;
+        const shinePadding = 6;
 
-        this.scene.add.rectangle(edge + (this.barWidth / 2), y, this.barWidth + 16, height + 14, 0x0a141f, 0.88)
-            .setStrokeStyle(2, 0xd8ba83, 0.95)
+        this.scene.add.rectangle(this.edge + (this.barWidth / 2), this.barY, this.barWidth + 16, height + 14, 0x100d0c, 0.76)
+            .setStrokeStyle(2, 0xdab77d, 0.95)
             .setDepth(105);
 
-        this.scene.add.rectangle(GAME_CONFIG.width - edge - (this.barWidth / 2), y, this.barWidth + 16, height + 14, 0x0a141f, 0.88)
-            .setStrokeStyle(2, 0xd8ba83, 0.95)
+        this.scene.add.rectangle(GAME_CONFIG.width - this.edge - (this.barWidth / 2), this.barY, this.barWidth + 16, height + 14, 0x100d0c, 0.76)
+            .setStrokeStyle(2, 0xdab77d, 0.95)
             .setDepth(105);
 
-        this.scene.add.rectangle(edge, y, this.barWidth, height, 0x3b4955, 1)
+        this.scene.add.rectangle(this.edge, this.barY, this.barWidth, height, 0x3b312d, 1)
             .setOrigin(0, 0.5)
             .setDepth(106);
 
-        this.scene.add.rectangle(GAME_CONFIG.width - edge, y, this.barWidth, height, 0x3b4955, 1)
+        this.scene.add.rectangle(GAME_CONFIG.width - this.edge, this.barY, this.barWidth, height, 0x3b312d, 1)
             .setOrigin(1, 0.5)
             .setDepth(106);
 
-        this.leftBar = this.scene.add.rectangle(edge, y, this.barWidth, height, 0xf07b58, 1)
+        this.leftBar = this.scene.add.rectangle(this.edge, this.barY, this.barWidth, height, 0xf07b58, 1)
             .setOrigin(0, 0.5)
             .setDepth(107);
 
-        this.rightBar = this.scene.add.rectangle(GAME_CONFIG.width - edge, y, this.barWidth, height, 0x57b6eb, 1)
+        this.rightBar = this.scene.add.rectangle(GAME_CONFIG.width - this.edge, this.barY, this.barWidth, height, 0xb7bcc4, 1)
             .setOrigin(1, 0.5)
             .setDepth(107);
 
-        this.scene.add.rectangle(edge + framePadding, y - 5, this.barWidth - 12, 4, 0xffffff, 0.14)
+        this.scene.add.rectangle(this.edge + shinePadding, this.barY - 4, this.barWidth - 12, 3, 0xffffff, 0.12)
             .setOrigin(0, 0.5)
             .setDepth(108);
 
-        this.scene.add.rectangle(GAME_CONFIG.width - edge - framePadding, y - 5, this.barWidth - 12, 4, 0xffffff, 0.14)
+        this.scene.add.rectangle(GAME_CONFIG.width - this.edge - shinePadding, this.barY - 4, this.barWidth - 12, 3, 0xffffff, 0.12)
             .setOrigin(1, 0.5)
             .setDepth(108);
     }
 
     createTexts() {
-        const edge = this.isMobile ? 84 : 126;
-        const topY = this.isMobile ? 38 : 40;
-        const playerFont = this.isMobile ? '15px' : '18px';
+        const nameY = this.isMobile ? 36 : 38;
+        const valueY = this.isMobile ? 91 : 98;
+        const playerFont = this.isMobile ? '22px' : '28px';
+        const valueFont = this.isMobile ? '15px' : '17px';
         const resultFont = this.isMobile ? '30px' : '40px';
         const helpFont = this.isMobile ? '16px' : '18px';
         const helpText = this.isMobile
             ? 'Toque em SOCO e CHUTE   MENU no topo'
             : 'P1 G/H   P2 L/;   ESC menu   R reiniciar';
 
-        this.scene.add.text(edge, topY, this.leftFighter.label, {
-            fontFamily: 'Arial Black, Arial, sans-serif',
+        this.scene.add.text(this.edge, nameY, this.leftFighter.label, {
+            fontFamily: '"Palatino Linotype", "Book Antiqua", Georgia, serif',
             fontSize: playerFont,
-            color: '#fff1d7'
-        }).setOrigin(0, 0.5).setDepth(110);
+            fontStyle: 'bold',
+            color: '#fff1d7',
+            stroke: '#3a2116',
+            strokeThickness: 4
+        }).setOrigin(0, 0.5).setDepth(110).setShadow(0, 4, '#000000', 10, true, true);
 
-        this.scene.add.text(GAME_CONFIG.width - edge, topY, this.rightFighter.label, {
-            fontFamily: 'Arial Black, Arial, sans-serif',
+        this.scene.add.text(GAME_CONFIG.width - this.edge, nameY, this.rightFighter.label, {
+            fontFamily: '"Palatino Linotype", "Book Antiqua", Georgia, serif',
             fontSize: playerFont,
-            color: '#fff1d7'
+            fontStyle: 'bold',
+            color: '#f0f1f3',
+            stroke: '#2a2d31',
+            strokeThickness: 4
+        }).setOrigin(1, 0.5).setDepth(110).setShadow(0, 4, '#000000', 10, true, true);
+
+        this.leftHealthText = this.scene.add.text(this.edge + this.barWidth, valueY, '', {
+            fontFamily: 'Arial, sans-serif',
+            fontSize: valueFont,
+            color: '#e8ded4'
         }).setOrigin(1, 0.5).setDepth(110);
 
-        this.leftHealthText = this.scene.add.text(edge + this.barWidth, topY, '', {
+        this.rightHealthText = this.scene.add.text(GAME_CONFIG.width - this.edge - this.barWidth, valueY, '', {
             fontFamily: 'Arial, sans-serif',
-            fontSize: this.isMobile ? '15px' : '17px',
-            color: '#dbe7f2'
-        }).setOrigin(1, 0.5).setDepth(110);
-
-        this.rightHealthText = this.scene.add.text(GAME_CONFIG.width - edge - this.barWidth, topY, '', {
-            fontFamily: 'Arial, sans-serif',
-            fontSize: this.isMobile ? '15px' : '17px',
-            color: '#dbe7f2'
+            fontSize: valueFont,
+            color: '#e8eaed'
         }).setOrigin(0, 0.5).setDepth(110);
 
         this.resultPanel = this.scene.add.rectangle(
@@ -113,9 +106,9 @@ export class FightHUD {
             194,
             this.isMobile ? 360 : 460,
             this.isMobile ? 112 : 126,
-            0x0f1d2a,
-            0.88
-        ).setStrokeStyle(2, 0xf1d39d, 0.95).setDepth(119).setVisible(false);
+            0x171311,
+            0.9
+        ).setStrokeStyle(2, 0xe6c78d, 0.95).setDepth(119).setVisible(false);
 
         this.resultText = this.scene.add.text(GAME_CONFIG.width / 2, 190, '', {
             fontFamily: '"Palatino Linotype", Georgia, serif',
@@ -126,20 +119,11 @@ export class FightHUD {
             align: 'center'
         }).setOrigin(0.5).setDepth(120).setVisible(false);
 
-        this.helpTextBg = this.scene.add.rectangle(
-            GAME_CONFIG.width / 2,
-            this.isMobile ? 98 : 688,
-            this.isMobile ? 470 : 540,
-            34,
-            0x0f1d2a,
-            0.82
-        ).setStrokeStyle(1, 0xe6c98e, 0.8).setDepth(119);
-
         this.helpText = this.scene.add.text(GAME_CONFIG.width / 2, this.isMobile ? 98 : 688, helpText, {
             fontFamily: 'Arial, sans-serif',
             fontSize: helpFont,
             color: '#edf3f8'
-        }).setOrigin(0.5).setDepth(120);
+        }).setOrigin(0.5).setDepth(120).setShadow(0, 2, '#000000', 8, true, true);
     }
 
     update() {

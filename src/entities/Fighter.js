@@ -1,5 +1,3 @@
-import { STATE_ANIMATIONS } from '../utils/fighterAnimations.js';
-
 const DEFAULT_BODY_SIZE = { width: 132, height: 300, offsetX: 122, offsetY: 360 };
 
 export class Fighter extends Phaser.Physics.Arcade.Sprite {
@@ -24,6 +22,7 @@ export class Fighter extends Phaser.Physics.Arcade.Sprite {
         this.visualScale = config.scale || 1;
         this.tintColor = config.tint;
         this.originY = config.originY || 1;
+        this.animationSet = config.animations || {};
 
         scene.add.existing(this);
         scene.physics.add.existing(this);
@@ -101,7 +100,7 @@ export class Fighter extends Phaser.Physics.Arcade.Sprite {
     }
 
     applyAnimationForState() {
-        const animationKey = STATE_ANIMATIONS[this.state];
+        const animationKey = this.animationSet[this.state];
         if (!animationKey) {
             return;
         }

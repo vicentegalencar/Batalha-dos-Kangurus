@@ -1,4 +1,4 @@
-import { createFighterAnimations, KANGAROO_SHEET } from '../utils/fighterAnimations.js';
+import { createFighterAnimations, KANGAROO_SHEETS } from '../utils/fighterAnimations.js';
 
 export class BootScene extends Phaser.Scene {
 
@@ -8,7 +8,9 @@ export class BootScene extends Phaser.Scene {
 
     preload() {
         this.load.image('arena-map', 'assets/mapa.png');
-        this.load.image(KANGAROO_SHEET.key, KANGAROO_SHEET.path);
+        Object.values(KANGAROO_SHEETS).forEach((sheet) => {
+            this.load.image(sheet.key, sheet.path);
+        });
     }
 
     create() {

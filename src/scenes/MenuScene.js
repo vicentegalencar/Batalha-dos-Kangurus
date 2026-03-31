@@ -169,7 +169,35 @@ export class MenuScene extends Phaser.Scene {
     }
 
     startMatch(mode) {
-        this.scene.start('FightScene', { mode });
+        this.scene.start('FightScene', {
+            mode,
+            fighterNames: this.collectFighterNames(mode)
+        });
+    }
+
+    collectFighterNames(mode) {
+        const leftDefault = mode === MODES.CPU ? 'Desafiante' : 'Jogador 1';
+        const rightDefault = mode === MODES.CPU ? 'Canguru Cinza' : 'Jogador 2';
+
+        return {
+            left: this.promptForName('Nome do canguru da esquerda:', leftDefault),
+            right: this.promptForName('Nome do canguru da direita:', rightDefault)
+        };
+    }
+
+    promptForName(message, fallback) {
+        if (typeof window === 'undefined' || typeof window.prompt !== 'function') {
+            return fallback;
+        }
+
+        const value = window.prompt(message, fallback);
+        const normalized = (value || '').trim();
+
+        if (!normalized) {
+            return fallback;
+        }
+
+        return normalized.slice(0, 18);
     }
 
     update() {

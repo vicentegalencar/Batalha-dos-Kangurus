@@ -25,27 +25,27 @@ export class IntroScene extends Phaser.Scene {
 
         this.add.rectangle(width / 2, height / 2, width, height, 0x08141f, 0.78).setDepth(-5);
         this.add.circle(width / 2, height / 2 - 36, 170, 0xf0b35d, 0.14);
-        this.add.rectangle(width / 2, height / 2, width - 220, 240, 0x112131, 0.58)
+        this.add.rectangle(width / 2, height / 2, width - 180, 270, 0x112131, 0.58)
             .setStrokeStyle(2, 0xf4d8a2, 0.85);
     }
 
     createMessage() {
         const centerX = GAME_CONFIG.width / 2;
 
-        this.messageText = this.add.text(centerX, 304, 'feliz aniversario manoel!!', {
+        this.messageText = this.add.text(centerX, 296, 'Feliz aniversário, Manoel!', {
             fontFamily: '"Palatino Linotype", "Book Antiqua", Georgia, serif',
-            fontSize: '54px',
+            fontSize: '68px',
             fontStyle: 'italic',
             color: '#fff4da',
             stroke: '#6b3f1c',
-            strokeThickness: 5,
+            strokeThickness: 6,
             align: 'center'
         }).setOrigin(0.5).setAlpha(0);
         this.messageText.setShadow(0, 8, '#000000', 18, true, true);
 
-        this.subtitleText = this.add.text(centerX, 392, 'uma abertura especial antes da luta', {
+        this.subtitleText = this.add.text(centerX, 398, 'Uma abertura especial antes da luta.', {
             fontFamily: 'Georgia, serif',
-            fontSize: '22px',
+            fontSize: '24px',
             color: '#f3d9b4',
             letterSpacing: 2
         }).setOrigin(0.5).setAlpha(0);
